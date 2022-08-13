@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	go.dtapp.net/dorm v1.0.17
-	go.dtapp.net/golog v1.0.22
-	go.dtapp.net/gorequest v1.0.24
+	go.dtapp.net/golog v1.0.24
+	go.dtapp.net/gorequest v1.0.26
 	go.dtapp.net/gotime v1.0.5
 	gorm.io/gorm v1.23.8
 )
@@ -67,6 +67,8 @@ require (
 	go.dtapp.net/gojson v1.0.1 // indirect
 	go.dtapp.net/gorandom v1.0.1 // indirect
 	go.dtapp.net/gostring v1.0.6 // indirect
+	go.dtapp.net/gotrace_id v1.0.0 // indirect
+	go.dtapp.net/gourl v1.0.0 // indirect
 	go.dtapp.net/goxml v1.0.1 // indirect
 	go.mongodb.org/mongo-driver v1.10.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
@@ -74,7 +76,7 @@ require (
 	go.uber.org/zap v1.22.0 // indirect
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/net v0.0.0-20220811182439-13a9a731de15 // indirect
+	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 	golang.org/x/text v0.3.7 // indirect

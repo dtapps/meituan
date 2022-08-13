@@ -7,4 +7,3 @@
 goinit.sh
 gomod.sh
 *_test.go
-/vendor/

@@ -23,7 +23,7 @@ func (c *Client) request(ctx context.Context, url string, params map[string]inte
 	client.SetParams(params)
 
 	// 发起请求
-	request, err := client.Request()
+	request, err := client.Request(ctx)
 	if err != nil {
 		return gorequest.Response{}, err
 	}
@@ -33,7 +33,7 @@ func (c *Client) request(ctx context.Context, url string, params map[string]inte
 		go c.log.GormMiddleware(ctx, request, Version)
 	}
 	if c.config.MongoDb != nil {
-		go c.log.MongoMiddleware(request)
+		go c.log.MongoMiddleware(ctx, request, Version)
 	}
 
 	return request, err
