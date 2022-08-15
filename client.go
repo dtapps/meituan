@@ -10,7 +10,7 @@ type ConfigClient struct {
 	Secret     string           // 秘钥
 	AppKey     string           // 渠道标记
 	GormClient *dorm.GormClient // 日志数据库
-	LogClient  *golog.GoLog     // 日志驱动
+	LogClient  *golog.ZapLog    // 日志驱动
 	LogDebug   bool             // 日志开关
 }
 
