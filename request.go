@@ -29,10 +29,10 @@ func (c *Client) request(ctx context.Context, url string, params map[string]inte
 	}
 
 	// 日志
-	if c.log.gorm == true {
+	if c.log.gorm {
 		go c.log.logGormClient.GormMiddleware(ctx, request, Version)
 	}
-	if c.log.mongo == true {
+	if c.log.mongo {
 		go c.log.logMongoClient.MongoMiddleware(ctx, request, Version)
 	}
 

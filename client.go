@@ -30,11 +30,11 @@ type Client struct {
 		appKey string // 渠道标记
 	}
 	log struct {
-		gormClient     *dorm.GormClient  // 日志数据库
 		gorm           bool              // 日志开关
+		gormClient     *dorm.GormClient  // 日志数据库
 		logGormClient  *golog.ApiClient  // 日志服务
-		mongoClient    *dorm.MongoClient // 日志数据库
 		mongo          bool              // 日志开关
+		mongoClient    *dorm.MongoClient // 日志数据库
 		logMongoClient *golog.ApiClient  // 日志服务
 	}
 }
