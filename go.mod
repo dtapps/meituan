@@ -4,8 +4,8 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	go.dtapp.net/dorm v1.0.29
-	go.dtapp.net/golog v1.0.42
+	go.dtapp.net/dorm v1.0.30
+	go.dtapp.net/golog v1.0.45
 	go.dtapp.net/gorequest v1.0.27
 	go.dtapp.net/gotime v1.0.5
 )
@@ -32,7 +32,7 @@ require (
 	github.com/jackc/pgproto3/v2 v2.3.1 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.12.0 // indirect
-	github.com/jackc/pgx/v4 v4.17.0 // indirect
+	github.com/jackc/pgx/v4 v4.17.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -45,9 +45,9 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.6.6 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
-	github.com/pelletier/go-toml/v2 v2.0.4 // indirect
+	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rs/zerolog v1.27.0 // indirect
+	github.com/rs/zerolog v1.28.0 // indirect
 	github.com/saracen/go7z v0.0.0-20191010121135-9c09b6bd7fda // indirect
 	github.com/saracen/solidblock v0.0.0-20190426153529-45df20abab6f // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
@@ -57,10 +57,10 @@ require (
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/upper/db/v4 v4.5.4 // indirect
-	github.com/uptrace/bun v1.1.7 // indirect
-	github.com/uptrace/bun/dialect/mysqldialect v1.1.7 // indirect
-	github.com/uptrace/bun/dialect/pgdialect v1.1.7 // indirect
-	github.com/uptrace/bun/driver/pgdriver v1.1.7 // indirect
+	github.com/uptrace/bun v1.1.8 // indirect
+	github.com/uptrace/bun/dialect/mysqldialect v1.1.8 // indirect
+	github.com/uptrace/bun/dialect/pgdialect v1.1.8 // indirect
+	github.com/uptrace/bun/driver/pgdriver v1.1.8 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
@@ -68,9 +68,8 @@ require (
 	github.com/xdg-go/stringprep v1.0.3 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.dtapp.net/goip v1.0.28 // indirect
-	go.dtapp.net/gojson v1.0.1 // indirect
 	go.dtapp.net/gorandom v1.0.1 // indirect
-	go.dtapp.net/gostring v1.0.9 // indirect
+	go.dtapp.net/gostring v1.0.10 // indirect
 	go.dtapp.net/gotrace_id v1.0.6 // indirect
 	go.dtapp.net/gourl v1.0.0 // indirect
 	go.dtapp.net/goxml v1.0.1 // indirect
@@ -78,11 +77,11 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.23.0 // indirect
-	golang.org/x/crypto v0.0.0-20220824171710-5757bc0c5503 // indirect
+	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/net v0.0.0-20220822230855-b0a4917ee28c // indirect
+	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
 	golang.org/x/sync v0.0.0-20220819030929-7fc1605a5dde // indirect
-	golang.org/x/sys v0.0.0-20220825204002-c680a09ffe64 // indirect
+	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
