@@ -5,8 +5,8 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	go.dtapp.net/dorm v1.0.30
-	go.dtapp.net/golog v1.0.45
-	go.dtapp.net/gorequest v1.0.27
+	go.dtapp.net/golog v1.0.54
+	go.dtapp.net/gorequest v1.0.28
 	go.dtapp.net/gotime v1.0.5
 )
 
@@ -32,14 +32,13 @@ require (
 	github.com/jackc/pgproto3/v2 v2.3.1 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.12.0 // indirect
-	github.com/jackc/pgx/v4 v4.17.1 // indirect
+	github.com/jackc/pgx/v4 v4.17.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lib/pq v1.10.6 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -47,7 +46,6 @@ require (
 	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rs/zerolog v1.28.0 // indirect
 	github.com/saracen/go7z v0.0.0-20191010121135-9c09b6bd7fda // indirect
 	github.com/saracen/solidblock v0.0.0-20190426153529-45df20abab6f // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
@@ -91,5 +89,5 @@ require (
 	gorm.io/gorm v1.23.8 // indirect
 	mellium.im/sasl v0.3.0 // indirect
 	xorm.io/builder v0.3.12 // indirect
-	xorm.io/xorm v1.3.1 // indirect
+	xorm.io/xorm v1.3.2 // indirect
 )
