@@ -8,4 +8,4 @@ const (
 	logTable = "meituan"
 )
 
-const Version = "1.0.15"
+const Version = "1.0.16"
