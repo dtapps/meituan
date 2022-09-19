@@ -4,10 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+// MongoClientFun *MongoClient 驱动
+// string 库名
+type MongoClientFun func() (*MongoClient, string)
+
+// MongoClientCollectionFun *MongoClient 驱动
+// string 库名
+// string 集合
+type MongoClientCollectionFun func() (*MongoClient, string, string)
 
 type ConfigMongoClient struct {
 	Dns          string // 地址
@@ -16,36 +24,31 @@ type ConfigMongoClient struct {
 }
 
 type MongoClient struct {
-	Db             *mongo.Client      // 驱动
-	config         *ConfigMongoClient // 配置
-	databaseName   string             // 库名
-	collectionName string             // 表名
-	//filterArr      []queryFilter      // 查询条件数组
-	filter bson.D // 查询条件
+	Db     *mongo.Client      // 驱动
+	config *ConfigMongoClient // 配置
 }
 
 func NewMongoClient(config *ConfigMongoClient) (*MongoClient, error) {
 
+	var ctx = context.Background()
 	var err error
 	c := &MongoClient{config: config}
 
-	c.databaseName = c.config.DatabaseName
-
 	// 连接到MongoDB
 	if c.config.Dns != "" {
-		c.Db, err = mongo.Connect(context.Background(), options.Client().ApplyURI(c.config.Dns))
+		c.Db, err = mongo.Connect(ctx, options.Client().ApplyURI(c.config.Dns))
 		if err != nil {
 			return nil, errors.New(fmt.Sprintf("连接失败：%v", err))
 		}
 	} else {
-		c.Db, err = mongo.Connect(context.Background(), c.config.Opts)
+		c.Db, err = mongo.Connect(ctx, c.config.Opts)
 		if err != nil {
 			return nil, errors.New(fmt.Sprintf("连接失败：%v", err))
 		}
 	}
 
 	// 检查连接
-	err = c.Db.Ping(context.TODO(), nil)
+	err = c.Db.Ping(ctx, nil)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("检查连接失败：%v", err))
 	}
@@ -54,10 +57,6 @@ func NewMongoClient(config *ConfigMongoClient) (*MongoClient, error) {
 }
 
 // Close 关闭
-func (c *MongoClient) Close() error {
-	err := c.Db.Disconnect(context.TODO())
-	if err != nil {
-		return errors.New(fmt.Sprintf("关闭失败：%v", err))
-	}
-	return nil
+func (c *MongoClient) Close(ctx context.Context) error {
+	return c.Db.Disconnect(ctx)
 }

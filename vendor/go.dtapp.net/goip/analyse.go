@@ -1,53 +1,47 @@
 package goip
 
 import (
+	"go.dtapp.net/goip/geoip"
+	"go.dtapp.net/goip/ip2region"
+	"go.dtapp.net/goip/ip2region_v2"
+	"go.dtapp.net/goip/ipv6wry"
+	"go.dtapp.net/goip/qqwry"
+	"net"
 	"strconv"
 )
 
-var (
-	ipv4 = "IPV4"
-	ipv6 = "IPV6"
-)
-
 type AnalyseResult struct {
-	IP       string `json:"ip,omitempty"`       // 输入的ip地址
-	Country  string `json:"country,omitempty"`  // 国家或地区
-	Province string `json:"province,omitempty"` // 省份
-	City     string `json:"city,omitempty"`     // 城市
-	Area     string `json:"area,omitempty"`     // 区域
-	Isp      string `json:"isp,omitempty"`      // 运营商
+	Ip              string                   `json:"ip,omitempty"`
+	QqwryInfo       qqwry.QueryResult        `json:"qqwry_info"`
+	Ip2regionInfo   ip2region.QueryResult    `json:"ip2region_info"`
+	Ip2regionV2info ip2region_v2.QueryResult `json:"ip2regionv2_info"`
+	GeoipInfo       geoip.QueryCityResult    `json:"geoip_info"`
+	Ipv6wryInfo     ipv6wry.QueryResult      `json:"ipv6wry_info"`
 }
 
 func (c *Client) Analyse(item string) AnalyseResult {
 	isIp := c.isIpv4OrIpv6(item)
+	ipByte := net.ParseIP(item)
 	switch isIp {
 	case ipv4:
-		info := c.V4db.Find(item)
-		search, err := c.V4Region.MemorySearch(item)
-		if err != nil {
-			return AnalyseResult{
-				IP:      info.IP,
-				Country: info.Country,
-				Area:    info.Area,
-			}
-		} else {
-			return AnalyseResult{
-				IP:       search.IP,
-				Country:  search.Country,
-				Province: search.Province,
-				City:     search.City,
-				Isp:      info.Area,
-			}
+		qqeryInfo, _ := c.QueryQqWry(ipByte)
+		ip2regionInfo, _ := c.QueryIp2Region(ipByte)
+		ip2regionV2Info, _ := c.QueryIp2RegionV2(ipByte)
+		geoipInfo, _ := c.QueryGeoIp(ipByte)
+		return AnalyseResult{
+			Ip:              ipByte.String(),
+			QqwryInfo:       qqeryInfo,
+			Ip2regionInfo:   ip2regionInfo,
+			Ip2regionV2info: ip2regionV2Info,
+			GeoipInfo:       geoipInfo,
 		}
 	case ipv6:
-		info := c.V6db.Find(item)
+		geoipInfo, _ := c.QueryGeoIp(ipByte)
+		ipv6Info, _ := c.QueryIpv6wry(ipByte)
 		return AnalyseResult{
-			IP:       info.IP,
-			Country:  info.Country,
-			Province: info.Province,
-			City:     info.City,
-			Area:     info.Area,
-			Isp:      info.Isp,
+			Ip:          ipByte.String(),
+			GeoipInfo:   geoipInfo,
+			Ipv6wryInfo: ipv6Info,
 		}
 	default:
 		return AnalyseResult{}

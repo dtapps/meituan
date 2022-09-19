@@ -9,6 +9,13 @@ import (
 	"time"
 )
 
+// GormClientFun *GormClient 驱动
+type GormClientFun func() *GormClient
+
+// GormClientTableFun *GormClient 驱动
+// string 表名
+type GormClientTableFun func() (*GormClient, string)
+
 type ConfigGormClient struct {
 	Dns                    string // 地址
 	LogStatus              bool   // 日志 - 状态

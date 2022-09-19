@@ -9,6 +9,7 @@ import (
 
 // GetInsideIp 内网ip
 func GetInsideIp(ctx context.Context) string {
+
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
 		panic(err)
@@ -49,27 +50,25 @@ func Ips(ctx context.Context) (map[string]string, error) {
 
 var respGetOutsideIp struct {
 	Data struct {
-		Ip string `json:"ip"`
+		Ip string `json:"ip,omitempty"`
 	} `json:"data"`
 }
 
 // GetOutsideIp 外网ip
-func GetOutsideIp(ctx context.Context) (ip string) {
-	ip = "0.0.0.0"
-	get := gorequest.NewHttp()
-	get.SetUri("https://api.dtapp.net/ip")
-	response, err := get.Get(ctx)
+func GetOutsideIp(ctx context.Context) string {
+	// 请求
+	getHttp := gorequest.NewHttp()
+	getHttp.SetUri("https://api.dtapp.net/ip")
+	response, err := getHttp.Get(ctx)
 	if err != nil {
-		return
+		return "0.0.0.0"
 	}
+	// 解析
 	err = json.Unmarshal(response.ResponseBody, &respGetOutsideIp)
 	if err != nil {
-		return
+		return "0.0.0.0"
 	}
-	if respGetOutsideIp.Data.Ip == "" {
-		return
-	}
-	ip = respGetOutsideIp.Data.Ip
+	respGetOutsideIp.Data.Ip = "0.0.0.0"
 	return respGetOutsideIp.Data.Ip
 }
 

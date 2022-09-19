@@ -8,6 +8,9 @@ import (
 	"time"
 )
 
+// RedisClientFun *RedisClient 驱动
+type RedisClientFun func() *RedisClient
+
 type ConfigRedisClient struct {
 	Addr        string        // 地址
 	Password    string        // 密码
