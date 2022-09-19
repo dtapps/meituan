@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	go.dtapp.net/dorm v1.0.38
 	go.dtapp.net/golog v1.0.82
 	go.dtapp.net/gorequest v1.0.31
 	go.dtapp.net/gotime v1.0.5
@@ -67,6 +66,7 @@ require (
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
+	go.dtapp.net/dorm v1.0.38 // indirect
 	go.dtapp.net/goip v1.0.34 // indirect
 	go.dtapp.net/gorandom v1.0.1 // indirect
 	go.dtapp.net/gostring v1.0.10 // indirect

@@ -6,3 +6,4 @@
 *.log
 gomod.sh
 *_test.go
+/vendor/

@@ -1,8 +1,0 @@
-.env
-.git
-.svn
-.idea
-.vscode
-*.log
-*_test.go
-gomod.sh
