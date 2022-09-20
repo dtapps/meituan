@@ -12,20 +12,18 @@ type ClientConfig struct {
 	ApiGormClientFun golog.ApiClientFun // 日志配置
 	Debug            bool               // 日志开关
 	ZapLog           *golog.ZapLog      // 日志服务
-	CurrentIp        string             // 当前ip
 }
 
 // Client 实例
 type Client struct {
 	requestClient *gorequest.App // 请求服务
 	zapLog        *golog.ZapLog  // 日志服务
-	currentIp     string         // 当前ip
 	config        struct {
 		secret string // 秘钥
 		appKey string // 渠道标记
 	}
 	log struct {
-		gorm   bool             // 日志开关
+		status bool             // 状态
 		client *golog.ApiClient // 日志服务
 	}
 }
@@ -37,8 +35,6 @@ func NewClient(config *ClientConfig) (*Client, error) {
 
 	c.zapLog = config.ZapLog
 
-	c.currentIp = config.CurrentIp
-
 	c.config.secret = config.Secret
 	c.config.appKey = config.AppKey
 
@@ -47,7 +43,7 @@ func NewClient(config *ClientConfig) (*Client, error) {
 	apiGormClient := config.ApiGormClientFun()
 	if apiGormClient != nil {
 		c.log.client = apiGormClient
-		c.log.gorm = true
+		c.log.status = true
 	}
 
 	return c, nil
