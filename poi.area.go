@@ -2,7 +2,7 @@ package meituan
 
 import (
 	"context"
-	"encoding/json"
+	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"net/http"
 )
@@ -23,24 +23,25 @@ type PoiAreaResult struct {
 	Result PoiAreaResponse    // 结果
 	Body   []byte             // 内容
 	Http   gorequest.Response // 请求
-	Err    error              // 错误
 }
 
-func newPoiAreaResult(result PoiAreaResponse, body []byte, http gorequest.Response, err error) *PoiAreaResult {
-	return &PoiAreaResult{Result: result, Body: body, Http: http, Err: err}
+func newPoiAreaResult(result PoiAreaResponse, body []byte, http gorequest.Response) *PoiAreaResult {
+	return &PoiAreaResult{Result: result, Body: body, Http: http}
 }
 
 // PoiArea 基础数据 - 商圈接口
 // https://openapi.meituan.com/#api-0.%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE-GetHttpsOpenapiMeituanComPoiAreaCityid1
-func (c *Client) PoiArea(ctx context.Context, cityID int) *PoiAreaResult {
+func (c *Client) PoiArea(ctx context.Context, cityID int, notMustParams ...gorequest.Params) (*PoiAreaResult, error) {
 	// 参数
-	param := gorequest.NewParams()
-	param.Set("cityid", cityID)
-	params := gorequest.NewParamsWith(param)
+	params := gorequest.NewParamsWith(notMustParams...)
+	params.Set("cityid", cityID)
 	// 请求
 	request, err := c.request(ctx, apiUrl+"/poi/area", params, http.MethodGet)
+	if err != nil {
+		return newPoiAreaResult(PoiAreaResponse{}, request.ResponseBody, request), err
+	}
 	// 定义
 	var response PoiAreaResponse
-	err = json.Unmarshal(request.ResponseBody, &response)
-	return newPoiAreaResult(response, request.ResponseBody, request, err)
+	err = gojson.Unmarshal(request.ResponseBody, &response)
+	return newPoiAreaResult(response, request.ResponseBody, request), err
 }
