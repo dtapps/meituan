@@ -1,8 +1,8 @@
 <h1>
-<a href="https://www.dtapp.net/">Golang Meituan</a>
+<a href="https://www.dtapp.net/">Golang</a>
 </h1>
 
-📦 Golang Meituan
+📦 Golang 美团
 
 [comment]: <> (go)
 [![godoc](https://pkg.go.dev/badge/go.dtapp.net/meituan?status.svg)](https://pkg.go.dev/go.dtapp.net/meituan)
@@ -13,5 +13,5 @@
 #### 安装
 
 ```go
-go get -v -u go.dtapp.net/meituan@v1.0.22
+go get -v -u go.dtapp.net/meituan@v1.0.23
 ```
