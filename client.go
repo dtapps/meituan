@@ -2,6 +2,7 @@ package meituan
 
 import (
 	"go.dtapp.net/gorequest"
+	"go.opentelemetry.io/otel"
 )
 
 // ClientConfig 实例配置
@@ -27,6 +28,7 @@ func NewClient(config *ClientConfig) (*Client, error) {
 	c := &Client{}
 
 	c.httpClient = gorequest.NewHttp()
+	c.httpClient.SetTracer(otel.Tracer("go.dtapp.net/meituan"))
 
 	c.config.clientIP = config.ClientIP
 	c.config.secret = config.Secret
