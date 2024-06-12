@@ -13,5 +13,5 @@
 #### 安装
 
 ```shell
-go get -v -u go.dtapp.net/meituan@v1.0.24
+go get -v -u go.dtapp.net/meituan@v1.0.25
 ```

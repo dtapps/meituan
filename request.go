@@ -7,30 +7,22 @@ import (
 
 func (c *Client) request(ctx context.Context, url string, param gorequest.Params, method string) (gorequest.Response, error) {
 
-	// 创建请求
-	client := gorequest.NewHttp()
-
 	// 设置请求地址
-	client.SetUri(url)
+	c.httpClient.SetUri(url)
 
 	// 设置方式
-	client.SetMethod(method)
+	c.httpClient.SetMethod(method)
 
 	// 设置格式
-	client.SetContentTypeJson()
+	c.httpClient.SetContentTypeJson()
 
 	// 设置参数
-	client.SetParams(param)
+	c.httpClient.SetParams(param)
 
 	// 发起请求
-	request, err := client.Request(ctx)
+	request, err := c.httpClient.Request(ctx)
 	if err != nil {
 		return gorequest.Response{}, err
-	}
-
-	// 日志
-	if c.gormLog.status {
-		go c.gormLog.client.Middleware(ctx, request)
 	}
 
 	return request, err
