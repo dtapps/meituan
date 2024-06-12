@@ -45,17 +45,15 @@ func (c *Client) PoiArea(ctx context.Context, cityID int, notMustParams ...goreq
 	// 请求
 	request, err := c.request(ctx, "poi/area", params, http.MethodGet)
 	if err != nil {
-		if c.trace {
-			c.span.SetStatus(codes.Error, err.Error())
-		}
+		c.TraceSetStatus(codes.Error, err.Error())
 		return newPoiAreaResult(PoiAreaResponse{}, request.ResponseBody, request), err
 	}
 
 	// 定义
 	var response PoiAreaResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil && c.trace {
-		c.span.SetStatus(codes.Error, err.Error())
+	if err != nil {
+		c.TraceSetStatus(codes.Error, err.Error())
 	}
 	return newPoiAreaResult(response, request.ResponseBody, request), err
 }

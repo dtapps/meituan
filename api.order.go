@@ -80,17 +80,15 @@ func (c *Client) ApiOrder(ctx context.Context, notMustParams ...gorequest.Params
 	// 请求
 	request, err := c.request(ctx, "api/order", params, http.MethodGet)
 	if err != nil {
-		if c.trace {
-			c.span.SetStatus(codes.Error, err.Error())
-		}
+		c.TraceSetStatus(codes.Error, err.Error())
 		return newApiOrderResult(ApiOrderResponse{}, request.ResponseBody, request), err
 	}
 
 	// 定义
 	var response ApiOrderResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil && c.trace {
-		c.span.SetStatus(codes.Error, err.Error())
+	if err != nil {
+		c.TraceSetStatus(codes.Error, err.Error())
 	}
 	return newApiOrderResult(response, request.ResponseBody, request), err
 }

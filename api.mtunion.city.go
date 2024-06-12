@@ -48,17 +48,15 @@ func (c *Client) ApiMtUnionCity(ctx context.Context, notMustParams ...gorequest.
 	// 请求
 	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
-		if c.trace {
-			c.span.SetStatus(codes.Error, err.Error())
-		}
+		c.TraceSetStatus(codes.Error, err.Error())
 		return newApiMtUnionCityResult(ApiMtUnionCityResponse{}, request.ResponseBody, request), err
 	}
 
 	// 定义
 	var response ApiMtUnionCityResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil && c.trace {
-		c.span.SetStatus(codes.Error, err.Error())
+	if err != nil {
+		c.TraceSetStatus(codes.Error, err.Error())
 	}
 	return newApiMtUnionCityResult(response, request.ResponseBody, request), err
 }

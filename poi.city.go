@@ -41,17 +41,15 @@ func (c *Client) PoiCity(ctx context.Context, notMustParams ...gorequest.Params)
 	// 请求
 	request, err := c.request(ctx, "poi/city", params, http.MethodGet)
 	if err != nil {
-		if c.trace {
-			c.span.SetStatus(codes.Error, err.Error())
-		}
+		c.TraceSetStatus(codes.Error, err.Error())
 		return newPoiCityResult(PoiCityResponse{}, request.ResponseBody, request), err
 	}
 
 	// 定义
 	var response PoiCityResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil && c.trace {
-		c.span.SetStatus(codes.Error, err.Error())
+	if err != nil {
+		c.TraceSetStatus(codes.Error, err.Error())
 	}
 	return newPoiCityResult(response, request.ResponseBody, request), err
 }
