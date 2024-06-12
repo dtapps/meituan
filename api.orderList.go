@@ -5,6 +5,7 @@ import (
 	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"go.dtapp.net/gotime"
+	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -49,19 +50,32 @@ func newApiOrderListResult(result ApiOrderListResponse, body []byte, http gorequ
 // ApiOrderList 订单列表查询接口（新版）
 // https://union.meituan.com/v2/apiDetail?id=23
 func (c *Client) ApiOrderList(ctx context.Context, notMustParams ...gorequest.Params) (*ApiOrderListResult, error) {
+
+	// OpenTelemetry链路追踪
+	ctx = c.TraceStartSpan(ctx, "api/orderList")
+	defer c.TraceEndSpan()
+
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
 	// 请求时刻10位时间戳(秒级)，有效期60s
 	params.Set("ts", gotime.Current().Timestamp())
 	params.Set("appkey", c.GetAppKey())
 	params.Set("sign", c.getSign(c.GetSecret(), params))
+
 	// 请求
-	request, err := c.request(ctx, apiUrl+"/api/orderList", params, http.MethodGet)
+	request, err := c.request(ctx, "api/orderList", params, http.MethodGet)
 	if err != nil {
+		if c.trace {
+			c.span.SetStatus(codes.Error, err.Error())
+		}
 		return newApiOrderListResult(ApiOrderListResponse{}, request.ResponseBody, request), err
 	}
+
 	// 定义
 	var response ApiOrderListResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
+	if err != nil && c.trace {
+		c.span.SetStatus(codes.Error, err.Error())
+	}
 	return newApiOrderListResult(response, request.ResponseBody, request), err
 }

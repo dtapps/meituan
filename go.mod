@@ -4,10 +4,11 @@ go 1.22.3
 
 require (
 	go.dtapp.net/gojson v1.0.4
-	go.dtapp.net/gorequest v1.0.61
+	go.dtapp.net/gorequest v1.0.62
 	go.dtapp.net/gostring v1.0.15
 	go.dtapp.net/gotime v1.0.11
 	go.opentelemetry.io/otel v1.27.0
+	go.opentelemetry.io/otel/trace v1.27.0
 )
 
 require (
@@ -31,7 +32,6 @@ require (
 	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.52.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.52.0 // indirect
 	go.opentelemetry.io/otel/metric v1.27.0 // indirect
-	go.opentelemetry.io/otel/trace v1.27.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect

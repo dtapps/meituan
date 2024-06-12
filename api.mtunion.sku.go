@@ -5,6 +5,7 @@ import (
 	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"go.dtapp.net/gotime"
+	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -37,19 +38,32 @@ func newApiMtUnionSkuResult(result ApiMtUnionSkuResponse, body []byte, http gore
 // ApiMtUnionSku 商品列表查询（新版）
 // https://union.meituan.com/v2/apiDetail?id=31
 func (c *Client) ApiMtUnionSku(ctx context.Context, notMustParams ...gorequest.Params) (*ApiMtUnionSkuResult, error) {
+
+	// OpenTelemetry链路追踪
+	ctx = c.TraceStartSpan(ctx, "api/getqualityscorebysid")
+	defer c.TraceEndSpan()
+
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
 	// 请求时刻10位时间戳(秒级)，有效期60s
 	params.Set("ts", gotime.Current().Timestamp())
 	params.Set("appkey", c.GetAppKey())
 	params.Set("sign", c.getSign(c.GetSecret(), params))
+
 	// 请求
-	request, err := c.request(ctx, apiUrl+"/api/getqualityscorebysid", params, http.MethodGet)
+	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
+		if c.trace {
+			c.span.SetStatus(codes.Error, err.Error())
+		}
 		return newApiMtUnionSkuResult(ApiMtUnionSkuResponse{}, request.ResponseBody, request), err
 	}
+
 	// 定义
 	var response ApiMtUnionSkuResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
+	if err != nil && c.trace {
+		c.span.SetStatus(codes.Error, err.Error())
+	}
 	return newApiMtUnionSkuResult(response, request.ResponseBody, request), err
 }

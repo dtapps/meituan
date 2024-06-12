@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
+	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -29,15 +30,28 @@ func newPoiCityResult(result PoiCityResponse, body []byte, http gorequest.Respon
 // PoiCity 基础数据 - 开放城市接口
 // https://openapi.meituan.com/#api-0.%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE-GetHttpsOpenapiMeituanComPoiCity
 func (c *Client) PoiCity(ctx context.Context, notMustParams ...gorequest.Params) (*PoiCityResult, error) {
+
+	// OpenTelemetry链路追踪
+	ctx = c.TraceStartSpan(ctx, "poi/city")
+	defer c.TraceEndSpan()
+
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
+
 	// 请求
-	request, err := c.request(ctx, apiUrl+"/poi/city", params, http.MethodGet)
+	request, err := c.request(ctx, "poi/city", params, http.MethodGet)
 	if err != nil {
+		if c.trace {
+			c.span.SetStatus(codes.Error, err.Error())
+		}
 		return newPoiCityResult(PoiCityResponse{}, request.ResponseBody, request), err
 	}
+
 	// 定义
 	var response PoiCityResponse
 	err = gojson.Unmarshal(request.ResponseBody, &response)
+	if err != nil && c.trace {
+		c.span.SetStatus(codes.Error, err.Error())
+	}
 	return newPoiCityResult(response, request.ResponseBody, request), err
 }
