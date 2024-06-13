@@ -1,5 +1,5 @@
 package meituan
 
 const (
-	Version = "1.0.29"
+	Version = "1.0.30"
 )
