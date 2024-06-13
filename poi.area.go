@@ -46,6 +46,7 @@ func (c *Client) PoiArea(ctx context.Context, cityID int, notMustParams ...goreq
 	request, err := c.request(ctx, "poi/area", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newPoiAreaResult(PoiAreaResponse{}, request.ResponseBody, request), err
 	}
 
@@ -54,6 +55,7 @@ func (c *Client) PoiArea(ctx context.Context, cityID int, notMustParams ...goreq
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newPoiAreaResult(response, request.ResponseBody, request), err
 }

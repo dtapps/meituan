@@ -41,6 +41,7 @@ func (c *Client) ApiMiniCode(ctx context.Context, notMustParams ...gorequest.Par
 	request, err := c.request(ctx, "api/miniCode", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiMiniCodeResult(ApiMiniCodeResponse{}, request.ResponseBody, request), err
 	}
 
@@ -49,6 +50,7 @@ func (c *Client) ApiMiniCode(ctx context.Context, notMustParams ...gorequest.Par
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiMiniCodeResult(response, request.ResponseBody, request), err
 }

@@ -42,6 +42,7 @@ func (c *Client) PoiCity(ctx context.Context, notMustParams ...gorequest.Params)
 	request, err := c.request(ctx, "poi/city", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newPoiCityResult(PoiCityResponse{}, request.ResponseBody, request), err
 	}
 
@@ -50,6 +51,7 @@ func (c *Client) PoiCity(ctx context.Context, notMustParams ...gorequest.Params)
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newPoiCityResult(response, request.ResponseBody, request), err
 }

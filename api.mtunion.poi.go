@@ -64,6 +64,7 @@ func (c *Client) ApiMtUnionPoi(ctx context.Context, notMustParams ...gorequest.P
 	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiMtUnionPoiResult(ApiMtUnionPoiResponse{}, request.ResponseBody, request), err
 	}
 
@@ -72,6 +73,7 @@ func (c *Client) ApiMtUnionPoi(ctx context.Context, notMustParams ...gorequest.P
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiMtUnionPoiResult(response, request.ResponseBody, request), err
 }

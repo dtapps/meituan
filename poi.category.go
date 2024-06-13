@@ -46,6 +46,7 @@ func (c *Client) PoiCategory(ctx context.Context, cityID int, notMustParams ...g
 	request, err := c.request(ctx, "poi/category", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newPoiCategoryResult(PoiCategoryResponse{}, request.ResponseBody, request), err
 	}
 
@@ -54,6 +55,7 @@ func (c *Client) PoiCategory(ctx context.Context, cityID int, notMustParams ...g
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newPoiCategoryResult(response, request.ResponseBody, request), err
 }

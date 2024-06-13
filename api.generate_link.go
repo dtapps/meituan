@@ -41,6 +41,7 @@ func (c *Client) ApiGenerateLink(ctx context.Context, notMustParams ...gorequest
 	request, err := c.request(ctx, "api/generateLink", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiGenerateLinkResult(ApiGenerateLinkResponse{}, request.ResponseBody, request), err
 	}
 
@@ -49,6 +50,7 @@ func (c *Client) ApiGenerateLink(ctx context.Context, notMustParams ...gorequest
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiGenerateLinkResult(response, request.ResponseBody, request), err
 }

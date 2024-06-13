@@ -49,6 +49,7 @@ func (c *Client) ApiMtUnionCategory(ctx context.Context, notMustParams ...gorequ
 	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiMtUnionCategoryResult(ApiMtUnionCategoryResponse{}, request.ResponseBody, request), err
 	}
 
@@ -57,6 +58,7 @@ func (c *Client) ApiMtUnionCategory(ctx context.Context, notMustParams ...gorequ
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiMtUnionCategoryResult(response, request.ResponseBody, request), err
 }

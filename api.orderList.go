@@ -66,6 +66,7 @@ func (c *Client) ApiOrderList(ctx context.Context, notMustParams ...gorequest.Pa
 	request, err := c.request(ctx, "api/orderList", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiOrderListResult(ApiOrderListResponse{}, request.ResponseBody, request), err
 	}
 
@@ -74,6 +75,7 @@ func (c *Client) ApiOrderList(ctx context.Context, notMustParams ...gorequest.Pa
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiOrderListResult(response, request.ResponseBody, request), err
 }

@@ -52,6 +52,7 @@ func (c *Client) ApiGetQuaLitYsCoreBySid(ctx context.Context, notMustParams ...g
 	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiGetQuaLitYsCoreBySidResult(ApiGetQuaLitYsCoreBySidResponse{}, request.ResponseBody, request), err
 	}
 
@@ -60,6 +61,7 @@ func (c *Client) ApiGetQuaLitYsCoreBySid(ctx context.Context, notMustParams ...g
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiGetQuaLitYsCoreBySidResult(response, request.ResponseBody, request), err
 }

@@ -49,6 +49,7 @@ func (c *Client) ApiMtUnionCity(ctx context.Context, notMustParams ...gorequest.
 	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 		return newApiMtUnionCityResult(ApiMtUnionCityResponse{}, request.ResponseBody, request), err
 	}
 
@@ -57,6 +58,7 @@ func (c *Client) ApiMtUnionCity(ctx context.Context, notMustParams ...gorequest.
 	err = gojson.Unmarshal(request.ResponseBody, &response)
 	if err != nil {
 		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
 	}
 	return newApiMtUnionCityResult(response, request.ResponseBody, request), err
 }

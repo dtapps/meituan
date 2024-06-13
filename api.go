@@ -3,23 +3,25 @@ package meituan
 import (
 	"context"
 	"go.dtapp.net/gorequest"
-	"net/http"
+	"go.opentelemetry.io/otel/codes"
 )
 
-func (c *Client) Get(ctx context.Context, _method string, notMustParams ...gorequest.Params) ([]byte, error) {
-	// 参数
-	params := gorequest.NewParamsWith(notMustParams...)
-	// 请求
-	request, err := c.request(ctx, apiUrl+_method, params, http.MethodGet)
-	// 定义
-	return request.ResponseBody, err
-}
+func (c *Client) Request(ctx context.Context, url string, method string, notMustParams ...gorequest.Params) ([]byte, error) {
 
-func (c *Client) Post(ctx context.Context, _method string, notMustParams ...gorequest.Params) ([]byte, error) {
+	// OpenTelemetry链路追踪
+	ctx = c.TraceStartSpan(ctx, url)
+	defer c.TraceEndSpan()
+
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
+
 	// 请求
-	request, err := c.request(ctx, apiUrl+_method, params, http.MethodPost)
-	// 定义
+	request, err := c.request(ctx, url, params, method)
+	if err != nil {
+		c.TraceSetStatus(codes.Error, err.Error())
+		c.TraceRecordError(err)
+		return request.ResponseBody, err
+	}
+
 	return request.ResponseBody, err
 }
