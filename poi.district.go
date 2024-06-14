@@ -2,9 +2,7 @@ package meituan
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
-	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -39,19 +37,7 @@ func (c *Client) PoiDistrict(ctx context.Context, cityID int, notMustParams ...g
 	params.Set("cityid", cityID)
 
 	// 请求
-	request, err := c.request(ctx, "poi/district", params, http.MethodGet)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-		return newPoiDistrictResult(PoiDistrictResponse{}, request.ResponseBody, request), err
-	}
-
-	// 定义
 	var response PoiDistrictResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-	}
+	request, err := c.request(ctx, "poi/district", params, http.MethodGet, &response)
 	return newPoiDistrictResult(response, request.ResponseBody, request), err
 }

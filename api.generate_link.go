@@ -2,9 +2,7 @@ package meituan
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
-	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -38,19 +36,7 @@ func (c *Client) ApiGenerateLink(ctx context.Context, notMustParams ...gorequest
 	params.Set("sign", c.getSign(c.GetSecret(), params))
 
 	// 请求
-	request, err := c.request(ctx, "api/generateLink", params, http.MethodGet)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-		return newApiGenerateLinkResult(ApiGenerateLinkResponse{}, request.ResponseBody, request), err
-	}
-
-	// 定义
 	var response ApiGenerateLinkResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-	}
+	request, err := c.request(ctx, "api/generateLink", params, http.MethodGet, &response)
 	return newApiGenerateLinkResult(response, request.ResponseBody, request), err
 }

@@ -2,10 +2,8 @@ package meituan
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"go.dtapp.net/gotime"
-	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -61,19 +59,7 @@ func (c *Client) ApiMtUnionPoi(ctx context.Context, notMustParams ...gorequest.P
 	params.Set("sign", c.getSign(c.GetSecret(), params))
 
 	// 请求
-	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-		return newApiMtUnionPoiResult(ApiMtUnionPoiResponse{}, request.ResponseBody, request), err
-	}
-
-	// 定义
 	var response ApiMtUnionPoiResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-	}
+	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet, &response)
 	return newApiMtUnionPoiResult(response, request.ResponseBody, request), err
 }

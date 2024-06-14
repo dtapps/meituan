@@ -2,10 +2,8 @@ package meituan
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"go.dtapp.net/gotime"
-	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -49,19 +47,7 @@ func (c *Client) ApiGetQuaLitYsCoreBySid(ctx context.Context, notMustParams ...g
 	params.Set("sign", c.getSign(c.GetSecret(), params))
 
 	// 请求
-	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-		return newApiGetQuaLitYsCoreBySidResult(ApiGetQuaLitYsCoreBySidResponse{}, request.ResponseBody, request), err
-	}
-
-	// 定义
 	var response ApiGetQuaLitYsCoreBySidResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-	}
+	request, err := c.request(ctx, "api/getqualityscorebysid", params, http.MethodGet, &response)
 	return newApiGetQuaLitYsCoreBySidResult(response, request.ResponseBody, request), err
 }

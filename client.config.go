@@ -4,25 +4,27 @@ import (
 	"go.dtapp.net/gorequest"
 )
 
-// ConfigClient 配置
-func (c *Client) ConfigClient(config *ClientConfig) {
-	c.config.secret = config.Secret
-	c.config.appKey = config.AppKey
+func (c *Client) GetSecret() string {
+	return c.config.secret
 }
 
-func (c *Client) SetSecret(secret string) *Client {
-	c.config.secret = secret
+func (c *Client) SetSecret(v string) *Client {
+	c.config.secret = v
 	return c
 }
 
-func (c *Client) SetAppKey(appKey string) *Client {
-	c.config.appKey = appKey
+func (c *Client) GetAppKey() string {
+	return c.config.appKey
+}
+
+func (c *Client) SetAppKey(v string) *Client {
+	c.config.appKey = v
 	return c
 }
 
 // SetClientIP 配置
 func (c *Client) SetClientIP(clientIP string) *Client {
-	c.config.clientIP = clientIP
+	c.clientIP = clientIP
 	if c.httpClient != nil {
 		c.httpClient.SetClientIP(clientIP)
 	}

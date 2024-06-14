@@ -2,9 +2,7 @@ package meituan
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
-	"go.opentelemetry.io/otel/codes"
 	"net/http"
 )
 
@@ -78,19 +76,7 @@ func (c *Client) ApiOrder(ctx context.Context, notMustParams ...gorequest.Params
 	params.Set("sign", c.getSign(c.GetSecret(), params))
 
 	// 请求
-	request, err := c.request(ctx, "api/order", params, http.MethodGet)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-		return newApiOrderResult(ApiOrderResponse{}, request.ResponseBody, request), err
-	}
-
-	// 定义
 	var response ApiOrderResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
-	if err != nil {
-		c.TraceSetStatus(codes.Error, err.Error())
-		c.TraceRecordError(err)
-	}
+	request, err := c.request(ctx, "api/order", params, http.MethodGet, &response)
 	return newApiOrderResult(response, request.ResponseBody, request), err
 }
