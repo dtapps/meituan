@@ -1,6 +1,7 @@
 package meituan
 
 import (
+	"context"
 	"go.dtapp.net/gojson"
 	"net/http"
 )
@@ -43,7 +44,7 @@ type ServeHttpOrderHttpResponse struct {
 
 // ServeHttpOrderHttp 订单回推接口（新版）
 // https://union.meituan.com/v2/apiDetail?id=22
-func (c *Client) ServeHttpOrderHttp(w http.ResponseWriter, r *http.Request) (validateJson ServeHttpOrderHttpRequest, err error) {
+func (c *Client) ServeHttpOrderHttp(ctx context.Context, w http.ResponseWriter, r *http.Request) (validateJson ServeHttpOrderHttpRequest, err error) {
 	err = gojson.NewDecoder(r.Body).Decode(&validateJson)
 	return
 }
